@@ -43,9 +43,12 @@
         .btn:hover {
             background: #005700;
         }
+        #yt-container {
+            display: none; /* Sembunyikan YouTube player awalnya */
+        }
     </style>
 </head>
-<body>
+<body onclick="enableAutoPlay()">
 
     <div class="card">
         <h1>🌙 Selamat Hari Raya Idul Fitri 🌙</h1>
@@ -55,33 +58,47 @@
         <p><em>Taqabbalallahu minna wa minkum.</em></p>
 
         <button class="btn" onclick="toggleMusic()">🔊 Putar / Pause Takbiran</button>
+        
+        <!-- YouTube Embed -->
+        <div id="yt-container">
+            <iframe id="yt-player" width="0" height="0"
+                src="https://www.youtube.com/embed/Cc2NBOue4Nk?enablejsapi=1&rel=0&showinfo=0"
+                frameborder="0" allow="autoplay"></iframe>
+        </div>
     </div>
 
     <div class="footer">Dibuat dengan ketulusan ❤️</div>
 
-    <!-- Audio Backsound -->
-    <audio id="backsound" loop>
-        <source src="takbiran.mp3" type="audio/mp3">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
-
     <script>
-        let music = document.getElementById("backsound");
+        let musicStarted = false;
+        let ytPlayer;
 
-        // Mulai backsound setelah user pertama kali klik
-        document.addEventListener("click", function() {
-            if (music.paused) {
-                music.play();
-            }
-        }, { once: true }); // Agar event hanya dipicu sekali
-
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-            } else {
-                music.pause();
+        function enableAutoPlay() {
+            if (!musicStarted) {
+                document.getElementById("yt-container").style.display = "block";
+                ytPlayer = document.getElementById("yt-player");
+                ytPlayer.src += "&autoplay=1"; // Tambahkan autoplay
+                musicStarted = true;
             }
         }
+
+        function toggleMusic() {
+            if (ytPlayer) {
+                let playerWindow = ytPlayer.contentWindow;
+                if (musicStarted) {
+                    playerWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    musicStarted = false;
+                } else {
+                    playerWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    musicStarted = true;
+                }
+            }
+        }
+
+        // Coba autoplay setelah halaman selesai dimuat
+        window.onload = function() {
+            setTimeout(enableAutoPlay, 2000); // Tunggu 2 detik, lalu coba mainkan musik
+        };
     </script>
 
 </body>
