@@ -31,12 +31,11 @@
             color: #555;
         }
         .btn {
-            display: none; /* Tombol awalnya disembunyikan */
-            margin-top: 15px;
-            padding: 10px 20px;
             background: #008000;
             color: white;
             border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
             cursor: pointer;
             border-radius: 5px;
             transition: background 0.3s;
@@ -46,7 +45,7 @@
         }
     </style>
 </head>
-<body onload="requestPlay()">
+<body>
 
     <div class="card">
         <h1>🌙 Selamat Hari Raya Idul Fitri 🌙</h1>
@@ -54,7 +53,8 @@
         <p>Mohon maaf lahir dan batin.</p>
         <p>Semoga kebahagiaan dan kedamaian selalu menyertaimu.</p>
         <p><em>Taqabbalallahu minna wa minkum.</em></p>
-        <button id="playButton" class="btn" onclick="playMusic()">🔊 Putar Takbiran</button>
+
+        <button class="btn" onclick="toggleMusic()">🔊 Putar / Pause Takbiran</button>
     </div>
 
     <div class="footer">Dibuat dengan ketulusan ❤️</div>
@@ -66,18 +66,21 @@
     </audio>
 
     <script>
-        function requestPlay() {
-            alert("Selamat Hari Raya Idul Fitri! 🎉");
-            let izin = confirm("Ingin memutar takbiran?");
-            if (izin) {
-                document.getElementById("playButton").style.display = "inline-block"; // Munculkan tombol
-            }
-        }
+        let music = document.getElementById("backsound");
 
-        function playMusic() {
-            let audio = document.getElementById("backsound");
-            audio.play().catch(error => console.log("Autoplay diblokir:", error));
-            document.getElementById("playButton").style.display = "none"; // Sembunyikan tombol setelah diklik
+        // Mulai backsound setelah user pertama kali klik
+        document.addEventListener("click", function() {
+            if (music.paused) {
+                music.play();
+            }
+        }, { once: true }); // Agar event hanya dipicu sekali
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
         }
     </script>
 
