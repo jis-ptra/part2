@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Idul Fitri, Nining!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 50px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        h1 {
+            color: #008000;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .btn {
+            background: #008000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #005700;
+        }
+        #yt-container {
+            display: none; /* Sembunyikan YouTube player awalnya */
+        }
+    </style>
+</head>
+<body onclick="enableAutoPlay()">
+
+    <div class="card">
+        <h1>🌙 Selamat Hari Raya Idul Fitri 🌙</h1>
+        <p><strong>Nining</strong>,</p>
+        <p>Mohon maaf lahir dan batin.</p>
+        <p>Semoga kebahagiaan dan kedamaian selalu menyertaimu.</p>
+        <p><em>Taqabbalallahu minna wa minkum.</em></p>
+
+        <button class="btn" onclick="toggleMusic()">🔊 Putar / Pause Takbiran</button>
+        
+        <!-- YouTube Embed -->
+        <div id="yt-container">
+            <iframe id="yt-player" width="0" height="0"
+                src="https://www.youtube.com/embed/Cc2NBOue4Nk?enablejsapi=1&rel=0&showinfo=0"
+                frameborder="0" allow="autoplay"></iframe>
+        </div>
+    </div>
+
+    <div class="footer">Dibuat dengan ketulusan ❤️</div>
+
+    <script>
+        let musicStarted = false;
+        let ytPlayer;
+
+        function enableAutoPlay() {
+            if (!musicStarted) {
+                document.getElementById("yt-container").style.display = "block";
+                ytPlayer = document.getElementById("yt-player");
+                ytPlayer.src += "&autoplay=1"; // Tambahkan autoplay
+                musicStarted = true;
+            }
+        }
+
+        function toggleMusic() {
+            if (ytPlayer) {
+                let playerWindow = ytPlayer.contentWindow;
+                if (musicStarted) {
+                    playerWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    musicStarted = false;
+                } else {
+                    playerWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    musicStarted = true;
+                }
+            }
+        }
+
+        // Coba autoplay setelah halaman selesai dimuat
+        window.onload = function() {
+            setTimeout(enableAutoPlay, 2000); // Tunggu 2 detik, lalu coba mainkan musik
+        };
+    </script>
+
+</body>
+</html>
