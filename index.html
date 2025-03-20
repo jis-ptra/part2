@@ -30,6 +30,20 @@
             font-size: 14px;
             color: #555;
         }
+        .btn {
+            display: none; /* Tombol awalnya disembunyikan */
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #008000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #005700;
+        }
     </style>
 </head>
 <body onload="requestPlay()">
@@ -40,6 +54,7 @@
         <p>Mohon maaf lahir dan batin.</p>
         <p>Semoga kebahagiaan dan kedamaian selalu menyertaimu.</p>
         <p><em>Taqabbalallahu minna wa minkum.</em></p>
+        <button id="playButton" class="btn" onclick="playMusic()">🔊 Putar Takbiran</button>
     </div>
 
     <div class="footer">Dibuat dengan ketulusan ❤️</div>
@@ -52,15 +67,17 @@
 
     <script>
         function requestPlay() {
-            // Pastikan user melihat pop-up alert dulu
-            alert("Selamat Hari Raya Idul Fitri! Klik OK untuk memutar Takbiran.");
-
-            // Konfirmasi apakah user ingin mendengarkan backsound
+            alert("Selamat Hari Raya Idul Fitri! 🎉");
             let izin = confirm("Ingin memutar takbiran?");
             if (izin) {
-                let audio = document.getElementById("backsound");
-                audio.play().catch(error => console.log("Autoplay diblokir:", error));
+                document.getElementById("playButton").style.display = "inline-block"; // Munculkan tombol
             }
+        }
+
+        function playMusic() {
+            let audio = document.getElementById("backsound");
+            audio.play().catch(error => console.log("Autoplay diblokir:", error));
+            document.getElementById("playButton").style.display = "none"; // Sembunyikan tombol setelah diklik
         }
     </script>
 
