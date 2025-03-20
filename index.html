@@ -52,12 +52,15 @@
 
     <script>
         function requestPlay() {
-            setTimeout(() => {
-                let izin = confirm("Ingin memutar takbiran?");
-                if (izin) {
-                    document.getElementById("backsound").play();
-                }
-            }, 500); // Memberi waktu agar halaman sepenuhnya dimuat
+            // Pastikan user melihat pop-up alert dulu
+            alert("Selamat Hari Raya Idul Fitri! Klik OK untuk memutar Takbiran.");
+
+            // Konfirmasi apakah user ingin mendengarkan backsound
+            let izin = confirm("Ingin memutar takbiran?");
+            if (izin) {
+                let audio = document.getElementById("backsound");
+                audio.play().catch(error => console.log("Autoplay diblokir:", error));
+            }
         }
     </script>
 
